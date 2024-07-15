@@ -4,7 +4,9 @@ type TCarCategory =
   | "SUV"
   | "Caminhão"
   | "Moto"
-  | "Esportivo";
+  | "Esportivo"
+  | "Coupe";
+
 type TCarColor = "Azul" | "Amarelo" | "Vermelho" | "Prata" | "Preto" | "Branco";
 type TCarTransmission = "Manual" | "Automático";
 type TCarDoors = 2 | 4;
@@ -16,6 +18,8 @@ interface ICarInfo {
   year: number;
   potency: number;
   doors: TCarDoors;
+  hood?: boolean;
+  appleCarPlayIntegration?: boolean;
 }
 
 class Car {
@@ -33,15 +37,63 @@ class Car {
 class CarBuilder {
   private carInfo: Partial<ICarInfo> = {};
 
-  setCategory(category: TCarCategory) {}
+  setCategory(newCategory: TCarCategory) {
+    this.carInfo.category = newCategory;
+    return this;
+  }
 
-  setColor(color: TCarColor) {}
+  setColor(newColor: TCarColor) {
+    this.carInfo.color = newColor;
+    return this;
+  }
 
-  setTrasmission(transmission: TCarTransmission) {}
+  setTrasmission(newTransmission: TCarTransmission) {
+    this.carInfo.transmission = newTransmission;
+    return this;
+  }
 
-  setYear(year: number) {}
+  setYear(newYear: number) {
+    this.carInfo.year = newYear;
+    return this;
+  }
 
-  setPotency(potency: number) {}
+  setPotency(newPotency: number) {
+    this.carInfo.potency = newPotency;
+    return this;
+  }
 
-  setDoors(doors: number) {}
+  setDoors(newDoor: TCarDoors) {
+    this.carInfo.doors = newDoor;
+    return this;
+  }
+
+  setHood(newHood: boolean) {
+    this.carInfo.hood = newHood;
+    return this;
+  }
+
+  setAppleCarPlayIntegration(newAppleCarPlayIntegration: boolean) {
+    this.carInfo.appleCarPlayIntegration = newAppleCarPlayIntegration;
+    return this;
+  }
+
+  build() {
+    return new Car(this.carInfo as ICarInfo);
+  }
 }
+
+const firstCar = new CarBuilder();
+const secondCar = new CarBuilder();
+firstCar
+  .setCategory("Esportivo")
+  .setColor("Vermelho")
+  .setPotency(570)
+  .setDoors(2)
+  .setTrasmission("Automático")
+  .setYear(2023)
+  .build()
+  .getCarInfo();
+
+secondCar.setCategory("Coupe");
+console.log(firstCar);
+console.log(secondCar);

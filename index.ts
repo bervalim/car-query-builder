@@ -12,6 +12,7 @@ type TCarTransmission = "Manual" | "Automático";
 type TCarDoors = 2 | 4;
 
 interface ICarInfo {
+  name: string;
   category: TCarCategory;
   color: TCarColor;
   transmission: TCarTransmission;
@@ -36,6 +37,11 @@ class Car {
 
 class CarBuilder {
   private carInfo: Partial<ICarInfo> = {};
+
+  setName(newName: string) {
+    this.carInfo.name = newName;
+    return this;
+  }
 
   setCategory(newCategory: TCarCategory) {
     this.carInfo.category = newCategory;
@@ -77,7 +83,13 @@ class CarBuilder {
     return this;
   }
 
+  reset() {
+    this.carInfo = {};
+    return this;
+  }
+
   build() {
+    // Cria-se uma instância do car builder e passando para o carro
     return new Car(this.carInfo as ICarInfo);
   }
 }
@@ -91,9 +103,7 @@ firstCar
   .setDoors(2)
   .setTrasmission("Automático")
   .setYear(2023)
-  .build()
-  .getCarInfo();
+  .build();
 
 secondCar.setCategory("Coupe");
 console.log(firstCar);
-console.log(secondCar);
